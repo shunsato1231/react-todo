@@ -60,8 +60,13 @@ app.put('/:id', (req, res) => {
 /** task追加 */
 app.post('/', (req, res) => {
   const {comment, status} = req.body;
+  const getId = () => {
+    if(tasks.length === 0) return 1
+    else return tasks[tasks.length - 1].id + 1
+  }
+
   const newTask = {
-    id: tasks.length + 1,
+    id: getId(),
     comment,
     status,
   };
