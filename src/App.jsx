@@ -1,22 +1,27 @@
 import React, { Component, Fragment } from 'react';
 import css from 'styled-jsx/css'
+import {BrowserRouter, Switch, Route, Link, Redirect} from 'react-router-dom';
 import DashBoard from './pages/DashBoard'
+import TaskDetail from './pages/TaskDetail'
 
 class App extends Component {
   render() {
     return (
-      <Fragment>
+      <BrowserRouter>
         <header>
           <h1>React Todo</h1>
         </header>
         <div className="wrapper">
-          <DashBoard/>
+          <Switch>
+            <Route exact path='/' component={DashBoard} />
+            <Route path='/:id' component={TaskDetail}/>
+          </Switch>
         </div>
         <footer>
           <small>© 2014 Copyright Text</small>
         </footer>
         <style jsx>{styles}</style>
-      </Fragment>
+      </BrowserRouter>
     );
   }
 }

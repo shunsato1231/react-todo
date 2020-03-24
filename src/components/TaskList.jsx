@@ -1,52 +1,44 @@
-import React, {Component} from 'react';
+import React from 'react';
 import css from 'styled-jsx/css'
-import axios from 'axios';
 import { Link } from "react-router-dom"
 
-class TaskList extends Component {
-  async deleteTask(id) {
-    await axios.delete('http://localhost:8081/' + id)
-    this.props.update()
+const TaskList = (props) => {
+  const listItemClass = (status) => {
+    if (status === 'done' ||status === 'pending') return 'gray'
+    else if (status === 'wip') return 'blue'
   }
 
-  render() {
-    const listItemClass = (status) => {
-      if (status === 'done' ||status === 'pending') return 'gray'
-      else if (status === 'wip') return 'blue'
-    }
-
-    return (
-      <div className="wrapper">
-        <div className="heading">
-          <div className="id">ID</div>
-          <div className="comment">Comment</div>
-          <div className="status">Status</div>
-        </div>
-        <ul>
-          {this.props.tasks.map((task, index) => 
-            <li key={index} className={listItemClass(task)}>
-              <div className="id">{task.id}</div>
-              <div className="comment">{task.comment}</div>
-              <div className="status">
-                <span className={"label " + task.status}>{task.status}</span>
-              </div>
-              <div className="edit">
-                <Link to="/">
-                  <i className="fas fa-edit icon"></i>
-                </Link>
-              </div>
-              <div className="trash">
-                <button onClick={() => this.deleteTask(task.id)}>
-                  <i className="fas fa-trash-alt"></i>
-                </button>
-              </div>
-            </li>
-          )}
-        </ul>
-        <style jsx>{styles}</style>
+  return (
+    <div className="wrapper">
+      <div className="heading">
+        <div className="id">ID</div>
+        <div className="comment">Comment</div>
+        <div className="status">Status</div>
       </div>
-    )
-  }
+      <ul>
+        {props.tasks.map((task, index) => 
+          <li key={index} className={listItemClass(task.status)}>
+            <div className="id">{task.id}</div>
+            <div className="comment">{task.comment}</div>
+            <div className="status">
+              <span className={"label " + task.status}>{task.status}</span>
+            </div>
+            <div className="edit">
+              <Link to={String(task.id)}>
+                <i className="fas fa-edit icon"></i>
+              </Link>
+            </div>
+            <div className="trash">
+              <button onClick={() => props.delete(task.id)}>
+                <i className="fas fa-trash-alt"></i>
+              </button>
+            </div>
+          </li>
+        )}
+      </ul>
+      <style jsx>{styles}</style>
+    </div>
+  )
 }
 
 const styles = css`

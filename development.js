@@ -13,6 +13,10 @@ export default {
     publicPath: '/',
     filename: 'bundle.js?[hash]'
   },
+   
+  devServer: {
+    historyApiFallback: true
+  },
 
   module: {
     rules: [

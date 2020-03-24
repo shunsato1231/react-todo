@@ -1,17 +1,18 @@
 import React, {Component, Fragment} from 'react';
 import css from 'styled-jsx/css'
-import SortTask from '../components/SortTask';
-import AddTask from '../components/AddTask';
-import TaskList from '../components/TaskList';
-
-
 import axios from 'axios';
+
+import SortCheckbox from '../components/SortCheckbox';
+import TaskList from '../components/TaskList';
+import AddTaskForm from '../components/AddTaskForm';
 
 class DashBoard extends Component {
   constructor(props) {
     super(props);
     this.changeStatus = this.changeStatus.bind(this)
     this.updateTask = this.updateTask.bind(this)
+    this.deleteTask = this.deleteTask.bind(this)
+    this.addTask = this.addTask.bind(this)
 
     this.state = {
       tasks: [],
@@ -47,6 +48,22 @@ class DashBoard extends Component {
     this.sortTask(this.state.statusList[this.state.sortedStatusIndex].name)
   }
 
+  async deleteTask (id) {
+    await axios.delete('http://localhost:8081/' + id)
+    this.updateTask()
+  }
+
+  async addTask(comment) {
+    if(!comment) return
+
+    await axios.post('http://localhost:8081/', {
+      status: 'new',
+      comment: comment
+    })
+
+    this.updateTask()
+  }
+
   changeStatus(index) {
     const statusList_copy = this.state.statusList.slice();
     statusList_copy[index].status = true
@@ -71,13 +88,13 @@ class DashBoard extends Component {
     return (
       <Fragment>
         <div className="sort">
-          <SortTask item={this.state.statusList} change={this.changeStatus}/>
+          <SortCheckbox list={this.state.statusList} change={this.changeStatus} taskNumber={this.state.tasks.length}/>
         </div>
         <div className="list">
-          <TaskList tasks={this.state.tasks} update={this.updateTask} />
+          <TaskList tasks={this.state.tasks} delete={this.deleteTask} />
         </div>
         <div className="add">
-          <AddTask update={this.updateTask} />
+          <AddTaskForm add={this.addTask} />
         </div>
         <style jsx>{styles}</style>
       </Fragment>
