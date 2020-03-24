@@ -1,6 +1,7 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component} from 'react'
 import css from 'styled-jsx/css'
-import {BrowserRouter, Switch, Route, Link, Redirect} from 'react-router-dom';
+import {BrowserRouter, Switch, Route} from 'react-router-dom'
+
 import DashBoard from './pages/DashBoard'
 import TaskDetail from './pages/TaskDetail'
 
@@ -22,7 +23,7 @@ class App extends Component {
         </footer>
         <style jsx>{styles}</style>
       </BrowserRouter>
-    );
+    )
   }
 }
 
@@ -68,6 +69,6 @@ footer
     font-size 12px
     line-height 25px
     color #fff
-`;
+`
 
-export default App;
+export default App

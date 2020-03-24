@@ -1,13 +1,12 @@
-import React, {Component, Fragment} from 'react';
-import { Link } from "react-router-dom"
+import React, {Component, Fragment} from 'react'
 import css from 'styled-jsx/css'
-import axios from 'axios';
+import axios from 'axios'
 
 import EditForm from '../components/EditForm'
 
 class TaskDetail extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.changeStatus = this.changeStatus.bind(this)
     this.changeComment = this.changeComment.bind(this)
     this.updateTask = this.updateTask.bind(this)
@@ -67,13 +66,15 @@ class TaskDetail extends Component {
           Edit Task
           <span>ID:{this.props.match.params.id}</span>
         </h2>
-        <EditForm
-          update={this.updateTask}
-          delete={this.deleteTask}
-          task={this.state.task}
-          changeStatus={this.changeStatus}
-          changeComment={this.changeComment}
-        />
+        <div className="editor">
+          <EditForm
+            update={this.updateTask}
+            delete={this.deleteTask}
+            task={this.state.task}
+            changeStatus={this.changeStatus}
+            changeComment={this.changeComment}
+          />
+        </div>
         <a onClick={()=>this.props.history.push('/')} className="back">
           <i className="fas fa-chevron-left"></i>
           <span>back</span>
@@ -93,6 +94,8 @@ const styles = css`
       margin-left 10px
       color #aaa
       font-weight normal
+  .editor
+    margin 56px auto
   a
     cursor pointer
     display flex
@@ -108,4 +111,4 @@ const styles = css`
       color #bbb
 `
 
-export default TaskDetail;
+export default TaskDetail

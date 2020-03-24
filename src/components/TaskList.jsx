@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import css from 'styled-jsx/css'
 import { Link } from "react-router-dom"
 
@@ -90,7 +90,7 @@ const styles = css`
           font-size 14px
           border-radius 5px
           height 25px
-          line-height 25px        
+          line-height 25px
         .new
           background #B2DFFF
           color #fff
@@ -123,4 +123,4 @@ const styles = css`
             font-size 14px
 `
 
-export default TaskList;
+export default TaskList

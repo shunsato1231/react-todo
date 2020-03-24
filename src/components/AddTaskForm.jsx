@@ -1,4 +1,4 @@
-import React, {Fragment, useRef} from 'react';
+import React, {Fragment, useRef} from 'react'
 import css from 'styled-jsx/css'
 
 const AddTask = (props) => {
@@ -61,4 +61,4 @@ const styled = css`
       outline none
 `
 
-export default AddTask;
+export default AddTask

@@ -1,4 +1,4 @@
-import React, {Fragment, useRef} from 'react';
+import React, {Fragment} from 'react'
 import css from 'styled-jsx/css'
 
 const EditForm = (props) => {
@@ -30,7 +30,6 @@ const EditForm = (props) => {
 const styles = css`
 .wrapper
   max-width 850px
-  margin 56px auto
   .status
     display flex
     justify-content space-between

@@ -1,14 +1,14 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component, Fragment} from 'react'
 import css from 'styled-jsx/css'
-import axios from 'axios';
+import axios from 'axios'
 
-import SortCheckbox from '../components/SortCheckbox';
-import TaskList from '../components/TaskList';
-import AddTaskForm from '../components/AddTaskForm';
+import SortCheckbox from '../components/SortCheckbox'
+import TaskList from '../components/TaskList'
+import AddTaskForm from '../components/AddTaskForm'
 
 class DashBoard extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.changeStatus = this.changeStatus.bind(this)
     this.updateTask = this.updateTask.bind(this)
     this.deleteTask = this.deleteTask.bind(this)
@@ -26,20 +26,20 @@ class DashBoard extends Component {
         {name: 'pending', status: false}
       ],
       sortedStatusIndex: 0
-    };
+    }
   }
 
 
   async componentDidMount() {
-    const tasks = (await axios.get('http://localhost:8081/')).data;
+    const tasks = (await axios.get('http://localhost:8081/')).data
     this.setState({
       tasks: tasks,
       allTasks: tasks
-    });
+    })
   }
 
   async updateTask() {
-    const tasks = (await axios.get('http://localhost:8081/')).data;
+    const tasks = (await axios.get('http://localhost:8081/')).data
     this.setState({
       tasks: tasks,
       allTasks: tasks
@@ -65,7 +65,7 @@ class DashBoard extends Component {
   }
 
   changeStatus(index) {
-    const statusList_copy = this.state.statusList.slice();
+    const statusList_copy = this.state.statusList.slice()
     statusList_copy[index].status = true
     statusList_copy[parseInt(this.state.sortedStatusIndex)].status = false
 
@@ -107,6 +107,6 @@ const styles = css`
   margin 56px 0 24px 0
 .add
   margin-top 24px
-`;
+`
 
-export default DashBoard;
+export default DashBoard

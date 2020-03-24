@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment} from 'react'
 import css from 'styled-jsx/css'
 
 const SortTask = (props) => {
@@ -64,6 +64,6 @@ const styles = css`
       height 8px
       border-radius 4px
       background #51B6FF
-`;
+`
 
-export default SortTask;
+export default SortTask
