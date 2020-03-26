@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react'
 import css from 'styled-jsx/css'
 
-const SortTask = (props) => {
+const StatusRadioButton = (props) => {
   return (
     <Fragment>
         <div className="wrapper">
@@ -15,7 +15,7 @@ const SortTask = (props) => {
                   name='status'
                   value={item.name}
                   checked={item.status}
-                  onChange={() => props.change(index)}/> {item.name}
+                  onChange={() => props.change(item.name)}/> {item.name}
               </label>
           )}
         </div>
@@ -66,4 +66,4 @@ const styles = css`
       background #51B6FF
 `
 
-export default SortTask
+export default StatusRadioButton

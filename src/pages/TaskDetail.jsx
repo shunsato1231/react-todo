@@ -14,7 +14,7 @@ class TaskDetail extends Component {
 
     this.state = {
       task: {
-        id: this.props.match.params.id,
+        id: '',
         comment: '',
         status: ''
       }

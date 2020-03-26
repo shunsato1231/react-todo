@@ -10,7 +10,7 @@ const EditForm = (props) => {
         <div className="status">
           {statusList.map((item, index) =>
             <label key={index} className={props.task.status === item ? 'checked' : ''}>
-              <input type="radio" name="status" value="new" checked={props.task.status === item} onChange={() => props.changeStatus(item)}/> {item}
+              <input type="radio" name="status" value={item.name} checked={props.task.status === item} onChange={() => props.changeStatus(item)}/> {item}
             </label>
           )}
         </div>
@@ -30,6 +30,7 @@ const EditForm = (props) => {
 const styles = css`
 .wrapper
   max-width 850px
+  margin 0 auto
   .status
     display flex
     justify-content space-between

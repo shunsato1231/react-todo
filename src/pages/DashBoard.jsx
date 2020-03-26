@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react'
 import css from 'styled-jsx/css'
 import axios from 'axios'
 
-import SortCheckbox from '../components/SortCheckbox'
+import StatusRadioButton from '../components/StatusRadioButton'
 import TaskList from '../components/TaskList'
 import AddTaskForm from '../components/AddTaskForm'
 
@@ -17,15 +17,14 @@ class DashBoard extends Component {
     this.state = {
       tasks: [],
       allTasks: [],
-      status: 'all',
+      statusName: 'all',
       statusList: [
         {name: 'all', status: true},
         {name: 'new', status: false},
         {name: 'wip', status: false},
         {name: 'done', status: false},
         {name: 'pending', status: false}
-      ],
-      sortedStatusIndex: 0
+      ]
     }
   }
 
@@ -44,8 +43,6 @@ class DashBoard extends Component {
       tasks: tasks,
       allTasks: tasks
     })
-
-    this.sortTask(this.state.statusList[this.state.sortedStatusIndex].name)
   }
 
   async deleteTask (id) {
@@ -64,15 +61,18 @@ class DashBoard extends Component {
     this.updateTask()
   }
 
-  changeStatus(index) {
+  changeStatus(name) {
+    const prevSelectedIndex = this.state.statusList.findIndex(item => {return item.name === this.state.statusName})
+    const nextSelectIndex = this.state.statusList.findIndex(item => {return item.name === name} )
+
     const statusList_copy = this.state.statusList.slice()
-    statusList_copy[index].status = true
-    statusList_copy[parseInt(this.state.sortedStatusIndex)].status = false
+    statusList_copy[prevSelectedIndex].status = false
+    statusList_copy[nextSelectIndex].status = true
 
     this.setState({
-      tasks: this.sortTask(this.state.statusList[index].name),
+      tasks: this.sortTask(name),
       statusList: statusList_copy,
-      sortedStatusIndex: index
+      statusName: name
     })
   }
 
@@ -88,7 +88,7 @@ class DashBoard extends Component {
     return (
       <Fragment>
         <div className="sort">
-          <SortCheckbox list={this.state.statusList} change={this.changeStatus} taskNumber={this.state.tasks.length}/>
+          <StatusRadioButton list={this.state.statusList} change={this.changeStatus} taskNumber={this.state.tasks.length}/>
         </div>
         <div className="list">
           <TaskList tasks={this.state.tasks} delete={this.deleteTask} />
