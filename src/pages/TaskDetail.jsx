@@ -73,7 +73,9 @@ class TaskDetail extends Component {
 
   validate() {
     const validate = () => {
-      if(this.state.beforeChangeTask.status === this.state.task.status && 
+      if (!this.state.task.comment) {
+        return 'disabled'
+      } else if(this.state.beforeChangeTask.status === this.state.task.status && 
           this.state.beforeChangeTask.comment === this.state.task.comment) {
         return 'disabled'
       } else return ''

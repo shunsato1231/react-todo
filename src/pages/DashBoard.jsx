@@ -13,7 +13,7 @@ class DashBoard extends Component {
     this.updateTask = this.updateTask.bind(this)
     this.deleteTask = this.deleteTask.bind(this)
     this.addTask = this.addTask.bind(this)
-    this.checkValidate = this.checkValidate.bind(this)
+    this.validateInputText = this.validateInputText.bind(this)
 
 
     this.state = {
@@ -27,7 +27,7 @@ class DashBoard extends Component {
         {name: 'done', status: false},
         {name: 'pending', status: false}
       ],
-      sendable: false
+      addTaskDisabled: 'disabled'
     }
   }
 
@@ -87,10 +87,16 @@ class DashBoard extends Component {
     }
   }
 
-  checkValidate(flag) {
-    this.setState({
-      sendable: flag
-    })
+  validateInputText(comment) {
+    if(!comment) {
+      this.setState({
+        addTaskDisabled: 'disabled'
+      }) 
+    } else {
+      this.setState({
+        addTaskDisabled: ''
+      })
+    }
   }
 
   render() {
@@ -108,8 +114,8 @@ class DashBoard extends Component {
         <div className="add">
           <AddTaskForm
             add={this.addTask}
-            sendable={this.state.sendable}
-            validation={this.checkValidate}
+            change={this.validateInputText}
+            disabled={this.state.addTaskDisabled}
             />
         </div>
         <style jsx>{styles}</style>

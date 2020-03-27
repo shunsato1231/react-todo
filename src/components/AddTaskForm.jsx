@@ -4,22 +4,6 @@ import css from 'styled-jsx/css'
 const AddTask = (props) => {
 
   const inputRef = useRef()
-  
-  const add = () => {
-    if(!inputRef.current.value) return
-
-    props.add(inputRef.current.value)
-    inputRef.current.value = ''
-    props.validation('')
-  }
-
-  const validate = () => {
-    if(inputRef.current.value) {
-      return true
-    } else {
-      return false
-    }
-  }
 
   return (
     <Fragment>
@@ -27,11 +11,11 @@ const AddTask = (props) => {
       <div className="form">
         <input placeholder="task comment"
           ref={inputRef}
-          onChange={() => props.validation(validate())}
+          onChange={() => props.change(inputRef.current.value)}
           />
         <button 
-          onClick={() => add()}
-          className={props.sendable ? '' : 'disabled'}
+          onClick={() => props.add(inputRef.current.value)}
+          className={props.disabled}
           >add</button>
       </div>
       <style jsx>{styled}</style>
