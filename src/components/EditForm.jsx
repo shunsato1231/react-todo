@@ -16,7 +16,7 @@ const EditForm = (props) => {
         </div>
         <input className="text" placeholder="task comment" value={props.task.comment} onChange={props.changeComment} />
         <div className="button">
-          <button className="update" onClick={props.update}>update task</button>
+          <button className={"update " + props.disabled} onClick={props.update}>update task</button>
           <button className="delete" onClick={props.delete}>
             <i className="fas fa-trash-alt"></i>
           </button>
@@ -84,10 +84,14 @@ const styles = css`
       border-color #ddd
       border-width 0 1px 1px 1px
       border-radius 0 0 0 5px
-      background #f9f9f9
+      background #f8f8f8
       color #888
       cursor pointer
       font-size 13px
+      &.disabled
+        background #fcfcfc
+        color #eee
+        pointer-events none
     .delete
       width 40px
       outline none

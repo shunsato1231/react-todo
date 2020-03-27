@@ -11,13 +11,20 @@ class TaskDetail extends Component {
     this.changeComment = this.changeComment.bind(this)
     this.updateTask = this.updateTask.bind(this)
     this.deleteTask = this.deleteTask.bind(this)
+    this.validate = this.validate.bind(this)
 
     this.state = {
       task: {
         id: '',
         comment: '',
         status: ''
-      }
+      },
+      beforeChangeTask: {
+        id: '',
+        comment: '',
+        status: ''
+      },
+      disabled: 'disabled'
     }
 
     this.getTask()
@@ -27,7 +34,8 @@ class TaskDetail extends Component {
     const task = (await axios.get('http://localhost:8081/' + this.props.match.params.id)).data
 
     this.setState({
-      task: task
+      task: JSON.parse(JSON.stringify(task)),
+      beforeChangeTask: JSON.parse(JSON.stringify(task))
     })
   }
 
@@ -49,6 +57,8 @@ class TaskDetail extends Component {
     this.setState({
       task: task_copy
     })
+
+    this.validate()
   }
 
   changeComment(event) {
@@ -56,6 +66,20 @@ class TaskDetail extends Component {
     task_copy.comment = event.target.value
     this.setState({
       task: task_copy
+    })
+
+    this.validate()
+  }
+
+  validate() {
+    const validate = () => {
+      if(this.state.beforeChangeTask.status === this.state.task.status && 
+          this.state.beforeChangeTask.comment === this.state.task.comment) {
+        return 'disabled'
+      } else return ''
+    }
+    this.setState({
+      disabled: validate()
     })
   }
 
@@ -73,6 +97,7 @@ class TaskDetail extends Component {
             task={this.state.task}
             changeStatus={this.changeStatus}
             changeComment={this.changeComment}
+            disabled={this.state.disabled}
           />
         </div>
         <a onClick={()=>this.props.history.push('/')} className="back">

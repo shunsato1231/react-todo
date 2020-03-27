@@ -48,7 +48,7 @@ app.put('/:id', (req, res) => {
 
   const {comment, status} = req.body;
   const newTask = {
-    id: req.params.id,
+    id: parseInt(req.params.id),
     comment,
     status,
   };

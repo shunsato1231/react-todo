@@ -10,14 +10,29 @@ const AddTask = (props) => {
 
     props.add(inputRef.current.value)
     inputRef.current.value = ''
+    props.validation('')
+  }
+
+  const validate = () => {
+    if(inputRef.current.value) {
+      return true
+    } else {
+      return false
+    }
   }
 
   return (
     <Fragment>
       <h2>add new task</h2>
       <div className="form">
-        <input placeholder="task comment" ref={inputRef} />
-        <button onClick={() => add()}>add</button>
+        <input placeholder="task comment"
+          ref={inputRef}
+          onChange={() => props.validation(validate())}
+          />
+        <button 
+          onClick={() => add()}
+          className={props.sendable ? '' : 'disabled'}
+          >add</button>
       </div>
       <style jsx>{styled}</style>
     </Fragment>
@@ -59,6 +74,10 @@ const styled = css`
       color #fff
       cursor pointer
       outline none
+      &.disabled
+        background #B2DFFF
+        border 1px solid #B2DFFF
+        pointer-events none
 `
 
 export default AddTask

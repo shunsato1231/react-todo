@@ -13,6 +13,8 @@ class DashBoard extends Component {
     this.updateTask = this.updateTask.bind(this)
     this.deleteTask = this.deleteTask.bind(this)
     this.addTask = this.addTask.bind(this)
+    this.checkValidate = this.checkValidate.bind(this)
+
 
     this.state = {
       tasks: [],
@@ -24,7 +26,8 @@ class DashBoard extends Component {
         {name: 'wip', status: false},
         {name: 'done', status: false},
         {name: 'pending', status: false}
-      ]
+      ],
+      sendable: false
     }
   }
 
@@ -84,17 +87,30 @@ class DashBoard extends Component {
     }
   }
 
+  checkValidate(flag) {
+    this.setState({
+      sendable: flag
+    })
+  }
+
   render() {
     return (
       <Fragment>
         <div className="sort">
-          <StatusRadioButton list={this.state.statusList} change={this.changeStatus} taskNumber={this.state.tasks.length}/>
+          <StatusRadioButton 
+            list={this.state.statusList}
+            change={this.changeStatus}
+            taskNumber={this.state.tasks.length}/>
         </div>
         <div className="list">
           <TaskList tasks={this.state.tasks} delete={this.deleteTask} />
         </div>
         <div className="add">
-          <AddTaskForm add={this.addTask} />
+          <AddTaskForm
+            add={this.addTask}
+            sendable={this.state.sendable}
+            validation={this.checkValidate}
+            />
         </div>
         <style jsx>{styles}</style>
       </Fragment>
