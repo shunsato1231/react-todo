@@ -19,7 +19,7 @@ class App extends Component {
           </Switch>
         </div>
         <footer>
-          <small>© 2014 Copyright Text</small>
+          <small>© 2020 Shun Sato</small>
         </footer>
         <style jsx>{styles}</style>
       </BrowserRouter>
