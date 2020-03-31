@@ -5,6 +5,17 @@ const AddTask = (props) => {
 
   const inputRef = useRef()
 
+  const add = () => {
+    props.add(inputRef.current.value)
+    props.change('')
+    inputRef.current.value = ''
+  }
+
+  const trigger = (event) => {
+    if (event.keyCode !== 13) return
+    add()
+  }
+
   return (
     <Fragment>
       <h2>add new task</h2>
@@ -12,9 +23,10 @@ const AddTask = (props) => {
         <input placeholder="task comment"
           ref={inputRef}
           onChange={() => props.change(inputRef.current.value)}
+          onKeyDown={(e) => trigger(e)}
           />
         <button 
-          onClick={() => props.add(inputRef.current.value)}
+          onClick={() => add()}
           className={props.disabled}
           >add</button>
       </div>

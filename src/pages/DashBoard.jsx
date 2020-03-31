@@ -10,11 +10,10 @@ class DashBoard extends Component {
   constructor(props) {
     super(props)
     this.changeStatus = this.changeStatus.bind(this)
-    this.updateTask = this.updateTask.bind(this)
+    this.getTask = this.getTask.bind(this)
     this.deleteTask = this.deleteTask.bind(this)
     this.addTask = this.addTask.bind(this)
     this.validateInputText = this.validateInputText.bind(this)
-
 
     this.state = {
       tasks: [],
@@ -32,7 +31,11 @@ class DashBoard extends Component {
   }
 
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.getTask()
+  }
+
+  async getTask() {
     const tasks = (await axios.get('http://localhost:8081/')).data
     this.setState({
       tasks: tasks,
@@ -40,28 +43,48 @@ class DashBoard extends Component {
     })
   }
 
-  async updateTask() {
-    const tasks = (await axios.get('http://localhost:8081/')).data
-    this.setState({
-      tasks: tasks,
-      allTasks: tasks
-    })
+  deleteTask (id) {
+    axios
+      .delete(`http://localhost:8081/${id}`)
+      .then(() => {
+        const index = this.state.allTasks.findIndex((v) => v.id === id)
+        const allTasks_copy = this.state.allTasks
+
+        allTasks_copy.splice(index, 1)
+
+        this.setState({
+          allTasks: allTasks_copy
+        })
+      })
   }
 
-  async deleteTask (id) {
-    await axios.delete('http://localhost:8081/' + id)
-    this.updateTask()
-  }
-
-  async addTask(comment) {
+  addTask(comment) {
     if(!comment) return
 
-    await axios.post('http://localhost:8081/', {
+    axios
+    .post('http://localhost:8081/', {
       status: 'new',
       comment: comment
     })
+    .then(() => {
+      const getId = () => {
+        if (this.state.allTasks.length === 0) return 1
+        return this.state.allTasks[this.state.allTasks.length - 1].id + 1
+      }
+      const allTasks_copy = this.state.allTasks
 
-    this.updateTask()
+      allTasks_copy.push({
+        id: getId(),
+        comment,
+        status: 'new'
+      })
+
+      this.setState({
+        allTasks: allTasks_copy
+      })
+
+      this.changeStatus('all')
+    })
   }
 
   changeStatus(name) {
@@ -87,8 +110,8 @@ class DashBoard extends Component {
     }
   }
 
-  validateInputText(comment) {
-    if(!comment) {
+  validateInputText(text) {
+    if(!text) {
       this.setState({
         addTaskDisabled: 'disabled'
       }) 

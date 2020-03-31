@@ -123,8 +123,7 @@ const styles = css`
       font-weight normal
   .editor
     margin 56px auto
-  a
-    cursor pointer
+  .back
     display flex
     margin 24px 0
     text-decoration none

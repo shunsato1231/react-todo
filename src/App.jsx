@@ -37,6 +37,7 @@ header
   width 100%
   height 56px
   line-height 56px
+  z-index 100
   h1
     width 90%
     max-width 1200px
