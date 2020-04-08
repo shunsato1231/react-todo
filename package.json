@@ -1,24 +1,17 @@
 {
-  "name": "ReactTodo",
+  "name": "react-todo",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "frontend": "webpack-dev-server --hot --inline --watch-content-base",
-    "backend": "node ./backend/src",
-    "start": "run-p frontend backend"
+    "start": "webpack-dev-server --hot --inline --watch-content-base",
+    "build": "webpack"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.19.2",
-    "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "helmet": "^3.21.3",
-    "morgan": "^1.9.1",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-router-dom": "^5.1.2"

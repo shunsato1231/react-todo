@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react'
 import css from 'styled-jsx/css'
-import axios from 'axios'
+import storage from '../storage/storage'
 
 import EditForm from '../components/EditForm'
 
@@ -31,7 +31,7 @@ class TaskDetail extends Component {
   }
 
   async getTask() {
-    const task = (await axios.get(`http://localhost:8081/${this.props.match.params.id}`)).data
+    const task = await storage.get(this.props.match.params.id)
 
     this.setState({
       task: JSON.parse(JSON.stringify(task)),
@@ -42,12 +42,12 @@ class TaskDetail extends Component {
   async updateTask() {
     if(!this.state.task.comment) return
 
-    await axios.put(`http://localhost:8081/${this.props.match.params.id}`, this.state.task)
+    await storage.put(this.state.task)
     this.props.history.push('/')
   }
 
   async deleteTask() {
-    await axios.delete(`http://localhost:8081/${this.props.match.params.id}`)
+    await storage.delete(this.props.match.params.id)
     this.props.history.push('/')
   }
 

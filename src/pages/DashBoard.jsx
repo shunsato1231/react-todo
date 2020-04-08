@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react'
 import css from 'styled-jsx/css'
-import axios from 'axios'
+import storage from '../storage/storage'
 
 import StatusRadioButton from '../components/StatusRadioButton'
 import TaskList from '../components/TaskList'
@@ -13,6 +13,7 @@ class DashBoard extends Component {
     this.getTask = this.getTask.bind(this)
     this.deleteTask = this.deleteTask.bind(this)
     this.addTask = this.addTask.bind(this)
+    this.resetTasks = this.resetTasks.bind(this)
     this.validateInputText = this.validateInputText.bind(this)
 
     this.state = {
@@ -36,7 +37,7 @@ class DashBoard extends Component {
   }
 
   async getTask() {
-    const tasks = (await axios.get('http://localhost:8081/')).data
+    const tasks = await storage.get()
     this.setState({
       tasks: tasks,
       allTasks: tasks
@@ -44,8 +45,8 @@ class DashBoard extends Component {
   }
 
   deleteTask (id) {
-    axios
-      .delete(`http://localhost:8081/${id}`)
+    storage
+      .delete(id)
       .then(() => {
         const index = this.state.allTasks.findIndex((v) => v.id === id)
         const allTasks_copy = this.state.allTasks
@@ -61,23 +62,19 @@ class DashBoard extends Component {
   addTask(comment) {
     if(!comment) return
 
-    axios
-    .post('http://localhost:8081/', {
-      status: 'new',
-      comment: comment
-    })
-    .then(() => {
-      const getId = () => {
-        if (this.state.allTasks.length === 0) return 1
-        return this.state.allTasks[this.state.allTasks.length - 1].id + 1
-      }
-      const allTasks_copy = this.state.allTasks
-
-      allTasks_copy.push({
-        id: getId(),
-        comment,
-        status: 'new'
+    storage
+      .post({
+        status: 'new',
+        comment
       })
+      .then(id => {
+        const allTasks_copy = this.state.allTasks
+
+        allTasks_copy.push({
+          id,
+          comment,
+          status: 'new'
+        })
 
       this.setState({
         allTasks: allTasks_copy
@@ -110,6 +107,11 @@ class DashBoard extends Component {
     }
   }
 
+  resetTasks() {
+    storage
+      .deleteDb()
+  }
+
   validateInputText(text) {
     if(!text) {
       this.setState({
@@ -123,6 +125,7 @@ class DashBoard extends Component {
   }
 
   render() {
+    const resetButtonVisible = this.state.allTasks.length === 0 ? 'hidden' : ''
     return (
       <Fragment>
         <div className="sort">
@@ -133,6 +136,13 @@ class DashBoard extends Component {
         </div>
         <div className="list">
           <TaskList tasks={this.state.tasks} delete={this.deleteTask} />
+          <p
+            className = {resetButtonVisible + ' resetButton'}
+            onClick = {this.resetTasks}
+          >
+            reset tasks
+            <i className="fas fa-redo"></i>
+          </p>
         </div>
         <div className="add">
           <AddTaskForm
@@ -152,6 +162,17 @@ const styles = css`
   margin 56px 0 24px 0
 .add
   margin-top 24px
+.resetButton
+  font-size 12px
+  margin-top 5px
+  color #999
+  i
+    margin-left 3px
+    color #bbb
+  &.hidden
+    display none
+  &:hover
+    cursor pointer
 `
 
 export default DashBoard
