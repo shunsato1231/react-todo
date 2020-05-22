@@ -6,6 +6,7 @@ const AddTask = (props) => {
   const inputRef = useRef()
 
   const add = () => {
+    if(!inputRef.current.value) return
     props.add(inputRef.current.value)
     props.change('')
     inputRef.current.value = ''
@@ -27,7 +28,7 @@ const AddTask = (props) => {
           />
         <button 
           onClick={() => add()}
-          className={props.disabled}
+          className={props.disabled ? 'disabled' : ''}
           >add</button>
       </div>
       <style jsx>{styled}</style>

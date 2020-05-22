@@ -6,10 +6,27 @@
     ],
     "@babel/preset-react"
   ],
-  "plugins": [
-    [
-      "styled-jsx/babel",
-      { "plugins": ["styled-jsx-plugin-stylus"] }
-    ]
-  ]
+  "env": {
+    "production": {
+      "plugins": [
+        [
+          "styled-jsx/babel",
+          { "plugins": ["styled-jsx-plugin-stylus"] }
+        ]
+      ]
+    },
+    "development": {
+      "plugins": [
+        [
+          "styled-jsx/babel",
+          { "plugins": ["styled-jsx-plugin-stylus"] }
+        ]
+      ]
+    },
+    "test": {
+      "plugins": [
+        "styled-jsx/babel-test"
+      ]
+    }
+  }
 }

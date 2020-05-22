@@ -1,8 +1,8 @@
 import React, {Component, Fragment} from 'react'
 import css from 'styled-jsx/css'
-import storage from '../storage/storage'
+import storage from '../../storage/Storage'
 
-import EditForm from '../components/EditForm'
+import EditForm from '../../components/EditForm/EditForm'
 
 class TaskDetail extends Component {
   constructor(props) {
@@ -24,10 +24,13 @@ class TaskDetail extends Component {
         comment: '',
         status: ''
       },
-      disabled: 'disabled'
+      disabled: 'disabled',
+      statusList: ['new', 'wip', 'done', 'pending']
     }
+  }
 
-    this.getTask()
+  async componentDidMount() {
+    await this.getTask()
   }
 
   async getTask() {
@@ -40,7 +43,8 @@ class TaskDetail extends Component {
   }
 
   async updateTask() {
-    if(!this.state.task.comment) return
+    this.validate()
+    if(this.state.disabled) return
 
     await storage.put(this.state.task)
     this.props.history.push('/')
@@ -61,9 +65,9 @@ class TaskDetail extends Component {
     this.validate()
   }
 
-  changeComment(event) {
+  changeComment(comment) {
     const task_copy = this.state.task
-    task_copy.comment = event.target.value
+    task_copy.comment = comment
     this.setState({
       task: task_copy
     })
@@ -74,11 +78,11 @@ class TaskDetail extends Component {
   validate() {
     const validate = () => {
       if (!this.state.task.comment) {
-        return 'disabled'
+        return true
       } else if(this.state.beforeChangeTask.status === this.state.task.status && 
           this.state.beforeChangeTask.comment === this.state.task.comment) {
-        return 'disabled'
-      } else return ''
+        return true
+      } else return false
     }
     this.setState({
       disabled: validate()
@@ -97,6 +101,7 @@ class TaskDetail extends Component {
             update={this.updateTask}
             delete={this.deleteTask}
             task={this.state.task}
+            statusList = {this.state.statusList}
             changeStatus={this.changeStatus}
             changeComment={this.changeComment}
             disabled={this.state.disabled}

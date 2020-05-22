@@ -2,8 +2,8 @@ import React, { Component} from 'react'
 import css from 'styled-jsx/css'
 import {BrowserRouter, Switch, Route} from 'react-router-dom'
 
-import DashBoard from './pages/DashBoard'
-import TaskDetail from './pages/TaskDetail'
+import DashBoard from './pages/DashBoard/DashBoard'
+import TaskDetail from './pages/TaskDetail/TaskDetail'
 
 class App extends Component {
   render() {

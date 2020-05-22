@@ -1,23 +1,30 @@
-import React, {Fragment} from 'react'
+import React, {Fragment, useRef} from 'react'
 import css from 'styled-jsx/css'
 
 const EditForm = (props) => {
-  const statusList = ['new', 'wip', 'done', 'pending']
+  const disabled = props.disabled ? 'disabled' : ''
+  const inputRef = useRef()
 
   return (
     <Fragment>
       <div className="wrapper">
         <div className="status">
-          {statusList.map((item, index) =>
-            <label key={index} className={props.task.status === item ? 'checked' : ''}>
+          {props.statusList.map((item, index) =>
+            <label data-testid='statusItem' key={index} className={props.task.status === item ? 'checked' : ''}>
               <input type="radio" name="status" value={item.name} checked={props.task.status === item} onChange={() => props.changeStatus(item)}/> {item}
             </label>
           )}
         </div>
-        <input className="text" placeholder="task comment" value={props.task.comment} onChange={props.changeComment} />
+        <input
+          data-testid="task-comment"
+          className="text"
+          placeholder="task comment"
+          value={props.task.comment}
+          ref={inputRef}
+          onChange={() => props.changeComment(inputRef.current.value)} />
         <div className="button">
-          <button className={"update " + props.disabled} onClick={props.update}>update task</button>
-          <button className="delete" onClick={props.delete}>
+          <button data-testid="updateButton" className={"update " + disabled} onClick={props.update}>update task</button>
+          <button data-testid="deleteButton" className="delete" onClick={props.delete}>
             <i className="fas fa-trash-alt"></i>
           </button>
         </div>

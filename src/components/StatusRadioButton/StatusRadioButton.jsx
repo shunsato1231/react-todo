@@ -6,7 +6,7 @@ const StatusRadioButton = (props) => {
     <Fragment>
         <div className="wrapper">
           {props.list.map((item, index) => 
-              <label 
+              <label
                 key={index}
                 className={item.status ? 'checked' : ''}
               >
@@ -15,11 +15,14 @@ const StatusRadioButton = (props) => {
                   name='status'
                   value={item.name}
                   checked={item.status}
+                  data-testid={item.name}
                   onChange={() => props.change(item.name)}/> {item.name}
               </label>
           )}
         </div>
-        <span>
+        <span
+          data-testid="task-number"
+        >
           (show {props.taskNumber} tasks)
         </span>
       <style jsx>{styles}</style>

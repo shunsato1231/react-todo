@@ -1,10 +1,10 @@
 import React, {Component, Fragment} from 'react'
 import css from 'styled-jsx/css'
-import storage from '../storage/storage'
+import Storage from '../../storage/Storage'
 
-import StatusRadioButton from '../components/StatusRadioButton'
-import TaskList from '../components/TaskList'
-import AddTaskForm from '../components/AddTaskForm'
+import StatusRadioButton from '../../components/StatusRadioButton/StatusRadioButton'
+import TaskList from '../../components/TaskList/TaskList'
+import AddTaskForm from '../../components/AddTaskForm/AddTaskForm'
 
 class DashBoard extends Component {
   constructor(props) {
@@ -27,17 +27,17 @@ class DashBoard extends Component {
         {name: 'done', status: false},
         {name: 'pending', status: false}
       ],
-      addTaskDisabled: 'disabled'
+      addTaskDisabled: true
     }
   }
 
 
-  componentDidMount() {
-    this.getTask()
+  async componentDidMount() {
+    await this.getTask()
   }
 
   async getTask() {
-    const tasks = await storage.get()
+    const tasks = await Storage.get()
     this.setState({
       tasks: tasks,
       allTasks: tasks
@@ -45,7 +45,7 @@ class DashBoard extends Component {
   }
 
   deleteTask (id) {
-    storage
+    Storage
       .delete(id)
       .then(() => {
         const index = this.state.allTasks.findIndex((v) => v.id === id)
@@ -62,7 +62,7 @@ class DashBoard extends Component {
   addTask(comment) {
     if(!comment) return
 
-    storage
+    Storage
       .post({
         status: 'new',
         comment
@@ -93,13 +93,13 @@ class DashBoard extends Component {
     statusList_copy[nextSelectIndex].status = true
 
     this.setState({
-      tasks: this.sortTask(name),
+      tasks: this.filterTask(name),
       statusList: statusList_copy,
       statusName: name
     })
   }
 
-  sortTask(status) {
+  filterTask(status) {
     if(status === 'all') {
       return this.state.allTasks
     } else {
@@ -107,19 +107,20 @@ class DashBoard extends Component {
     }
   }
 
-  resetTasks() {
-    storage
-      .deleteDb()
+  async resetTasks() {
+    await Storage.dispose()
+    await Storage.open()
+    await this.getTask()
   }
 
   validateInputText(text) {
     if(!text) {
       this.setState({
-        addTaskDisabled: 'disabled'
+        addTaskDisabled: true
       }) 
     } else {
       this.setState({
-        addTaskDisabled: ''
+        addTaskDisabled: false
       })
     }
   }
@@ -128,7 +129,7 @@ class DashBoard extends Component {
     const resetButtonVisible = this.state.allTasks.length === 0 ? 'hidden' : ''
     return (
       <Fragment>
-        <div className="sort">
+        <div className="filter">
           <StatusRadioButton 
             list={this.state.statusList}
             change={this.changeStatus}
@@ -158,7 +159,7 @@ class DashBoard extends Component {
 }
 
 const styles = css`
-.sort
+.filter
   margin 56px 0 24px 0
 .add
   margin-top 24px
