@@ -109,8 +109,7 @@ describe('Pages',() => {
       taskDetail.instance().validate()
       expect(taskDetail.state().disabled).toEqual(true)
 
-      const updateFunc = await taskDetail.instance().updateTask()
-      // expect(updateFunc).toBe('return')
+      await taskDetail.instance().updateTask()
       // ホームへの遷移関数が呼ばれていないこと
       expect(historyMock.push).not.toHaveBeenCalled()
     })
